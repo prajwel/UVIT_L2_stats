@@ -31,9 +31,9 @@ app = Flask(__name__)
 @app.route('/l2stats')
 def uvit_archive():
     df = pd.read_csv(master_file)
+    df = df[df['PV'] != 'y'] # No need to display PV phase data.
     selected_df = df[['ObsID', 'date', '6.3 L2']]
     array = selected_df.values
-    array = array[37:]  # No need to display PV phase data.
     array[:, 1] = [convert_date_to_string(d) for d in array[:, 1]]
     array[:, 2] = [convert_status(d) for d in array[:, 2]]
     status_list = list(array)
